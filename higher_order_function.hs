@@ -65,9 +65,13 @@ numLongChains' = length (filter (\xs -> length xs > 15) (map chain [1..100]))
 -- zipWith (/a b -> (a * 30 + 3) / b) [5,4,3,2,1][1,2,3,4,5]
 -- map (\( a,b) -> a + b) [(1,2),(3,5),(6,3),(2,6),(2,5)]
 
-sum_by_foldl :: (Num a) => [a] -> a
-sum_by_foldl xs = foldl (\acc x -> acc + x) 0 xs
+sumByFoldl :: (Num a) => [a] -> a
+sumByFoldl xs = foldl (\acc x -> acc + x) 0 xs
 
 
+-- map_by_foldr
+mapByFoldr :: (a -> b) -> [a] -> [b]
+mapByFoldr f xs = foldr (\x acc -> f x : acc) [] xs
 
-
+sqrtSums :: Int
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
