@@ -1,3 +1,4 @@
+import qualified Data.Map as Map
 -- data: the keyword to define a type
 -- example
 data Shape = Circle Float Float Float | Rectangle Float Float Float Float
@@ -33,25 +34,26 @@ data Person = Person { firstName :: String
 
 data Car = Car {company :: String, model :: String, year :: Int} deriving (Show)
 
+-- type synonyms
+type PhoneNumber = String
+type Name = String
+type PhoneBook = [(Name,PhoneNumber)]
+inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
+inPhoneBook name pnumber pbook = (name,pnumber) `elem` pbook
 
+--data Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
+data LockerState = Taken | Free deriving (Show, Eq)
+type Code = String
+type LockerMap = Map.Map Int (LockerState, Code)
+lockerLookup :: Int -> LockerMap -> Either String Code
+lockerLookup lockerNumber map =
+  case Map.lookup lockerNumber map of
+    Nothing -> Left $ "Locker number " ++ show lockerNumber ++ " doesn't exist!"
+    Just (state, code) -> if state /= Taken
+                            then Right code
+                            else Left $ "Locker " ++ show lockerNumber ++ " is already taken!"
 
+-- recursive data structures
+data List a = Empty | Cons { listHead :: a, listTail :: List a } deriving (Show, Read, Eq, Ord)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- binary search tree
